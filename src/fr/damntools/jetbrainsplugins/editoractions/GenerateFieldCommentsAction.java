@@ -51,7 +51,7 @@ class GenerateFieldCommentsAction extends AnAction {
 				String selectedText = selectionModel.getSelectedText();
 				assert selectedText != null;
 
-				Matcher matcher = Pattern.compile("((private|public)(\\sstatic\\s|\\sfinal\\s|\\s)?([^\\s]+)\\s([^\\s]+).*;)").matcher(selectedText);
+				Matcher matcher = Pattern.compile("((private|public)?(\\sstatic\\s|\\sfinal\\s|\\s)?([^\\s]+)\\s([^\\s]+).*;)").matcher(selectedText);
 				StringBuilder newText = new StringBuilder();
 
 				boolean matches = false;

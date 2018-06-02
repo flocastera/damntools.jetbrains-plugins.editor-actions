@@ -1,4 +1,5 @@
 package fr.damntools.jetbrainsplugins.editoractions.models;
+
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.util.xmlb.XmlSerializerUtil;
@@ -9,15 +10,21 @@ import java.util.Set;
 @State(name = "SaveActionSettings",
 		storages = {@com.intellij.openapi.components.Storage(file = "./saveactions_settings.xml")})
 public class Storage implements PersistentStateComponent<Storage> {
-
+	/** actions */
 	private Set<Action> actions = new HashSet<>();
 
+	/** exclusions */
 	private Set<String> exclusions = new HashSet<>();
+
+	/** inclusions */
 	private Set<String> inclusions = new HashSet<>();
 
+	/** firstLaunch */
 	private boolean firstLaunch = true;
 
+	/** configurationPath */
 	private String configurationPath;
+
 
 	public String getConfigurationPath() {
 		return configurationPath;
