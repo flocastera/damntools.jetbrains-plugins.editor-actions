@@ -54,12 +54,13 @@ class GenerateFieldCommentsAction extends AnAction {
 				Matcher matcher = Pattern.compile("((private|public)(\\sstatic\\s|\\sfinal\\s|\\s)?([^\\s]+)\\s([^\\s]+).*;)").matcher(selectedText);
 				StringBuilder newText = new StringBuilder();
 
-				boolean matches = matcher.matches();
+				boolean matches = false;
 
 				while(matcher.find()) {
 					String line = matcher.group();
 					String fieldName = matcher.group(5);
 					newText.append(String.format("/** %s */\n%s\n\n", fieldName, line));
+					matches = true;
 				}
 				if( matches)
 					document.replaceString(selectionModel.getSelectionStart(), selectionModel.getSelectionEnd(), newText.toString());
