@@ -51,7 +51,7 @@ class GenerateFieldCommentsAction extends AnAction {
 				String selectedText = selectionModel.getSelectedText();
 				assert selectedText != null;
 
-				Matcher matcher = Pattern.compile("((private|public)?(\\sstatic\\s|\\sfinal\\s|\\s)?([^\\s]+)\\s([^\\s]+).*;)").matcher(selectedText);
+				Matcher matcher = Pattern.compile("((private\\s|public\\s)?(static\\s|final\\s)*([^\\s]+)\\s([^\\s]+).*;)").matcher(selectedText);
 				StringBuilder newText = new StringBuilder();
 
 				boolean matches = false;
@@ -59,7 +59,7 @@ class GenerateFieldCommentsAction extends AnAction {
 				while(matcher.find()) {
 					String line = matcher.group();
 					String fieldName = matcher.group(5);
-					newText.append(String.format("/** %s */\n%s\n\n", fieldName, line));
+					newText.append(String.format("\n/** %s */\n%s\n", fieldName, line));
 					matches = true;
 				}
 				if( matches)
