@@ -5,16 +5,12 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiDocumentManager;
-import fr.damntools.jetbrainsplugins.editoractions.models.Storage;
-import fr.damntools.jetbrainsplugins.editoractions.processors.ReformatCodeProcessor;
+import fr.damntools.jetbrainsplugins.editoractions.utils.FormatUtils;
 
-import java.lang.String;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,7 +49,6 @@ class GenerateFieldCommentsAction extends AnAction {
 
 				Matcher matcher = Pattern.compile("((private\\s|public\\s)?(static\\s|final\\s)*([^\\s]+)\\s([^\\s]+).*;)").matcher(selectedText);
 				StringBuilder newText = new StringBuilder();
-
 				boolean matches = false;
 
 				while(matcher.find()) {
@@ -67,7 +62,7 @@ class GenerateFieldCommentsAction extends AnAction {
 			});
 
 			selectionModel.removeSelection();
-			new ReformatCodeProcessor(project, PsiDocumentManager.getInstance(project).getPsiFile(document), ServiceManager.getService(project, Storage.class)).run();
+			FormatUtils.formatCode(project, document);
 		}
 	}
 }
