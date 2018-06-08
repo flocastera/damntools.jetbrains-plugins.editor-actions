@@ -47,15 +47,15 @@ class GenerateFieldCommentsAction extends AnAction {
 				String selectedText = selectionModel.getSelectedText();
 				assert selectedText != null;
 
-				Matcher matcher = Pattern.compile("(@[^\\s]+\\s+)?((private\\s|public\\s)?(static\\s|final\\s)*([^\\s]+)\\s([^\\s]+).*;)").matcher(selectedText);
+				Matcher matcher = Pattern.compile("(@[^\\s]+\\s+)?((private\\s|public\\s|protected\\s)?(static\\s|final\\s)*([^\\s]+)\\s([^\\s]+).*;)").matcher(selectedText);
 				StringBuilder newText = new StringBuilder();
 				boolean matches = false;
 
 				while(matcher.find()) {
 					String line = matcher.group();
-					String annotation = matcher.group(1);
+					System.out.println("|" + line + "|");
 					String fieldName = matcher.group(6);
-					newText.append(String.format("%s\n/** %s */\n%s", annotation, fieldName, line));
+					newText.append(String.format("\n/** %s %s */\n%s", getVisibilitySymbol(matcher.group(3)), fieldName, line));
 					matches = true;
 				}
 				if( matches)
@@ -64,6 +64,18 @@ class GenerateFieldCommentsAction extends AnAction {
 
 			selectionModel.removeSelection();
 			FormatUtils.formatCode(project, document);
+		}
+	}
+
+	private String getVisibilitySymbol(String visibility){
+		System.out.println("|" + visibility + "|");
+		if( visibility == null)
+			return "~";
+		switch (visibility){
+			case "public ": return "+";
+			case "private ": return "-";
+			case "protected ": return "#";
+			default: return "~";
 		}
 	}
 }
